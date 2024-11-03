@@ -3,11 +3,13 @@
     class="flex justify-start w-full border-b border-gray-100 shadow mx-toolbar"
   >
     <div
+      class="flex items-center w-[fit-content] mr-[10px]"
       v-for="item in toolbar"
       :class="getToolbarItemClassName(item)"
       @click="handleToolbarItemClick(item)"
     >
       <div :class="getToolbarClassName(item)"></div>
+      <div>{{item}}</div>
       <!-- <span>{{ graph?.actions.action[item].name }}</span> -->
     </div>
   </div>
@@ -27,10 +29,10 @@ const props = defineProps<ToolbarProps>()
 const toolbar = ref<string[]>(['undo', 'redo', 'zoomIn', 'zoomOut', 'delete'])
 
 const disabled = (key: string) => {
-  return `toolbar_item w-6 cursor-pointer text-center leading-8 cursor-not-allowed opacity-50 ${key}`
+  return `flex items-center w-[fit-content] mr-[10px] cursor-pointer text-center leading-8 cursor-not-allowed opacity-50 ${key}`
 }
 const normal = (key: string) => {
-  return `toolbar_item w-6 cursor-pointer text-center leading-8 hover:bg-slate-200 opacity-100 ${key}`
+  return `flex items-center w-[fit-content] mr-[10px] cursor-pointer text-center leading-8 hover:bg-slate-200 opacity-100 ${key}`
 }
 onMounted(() => {
   nextTick(() => {
@@ -74,11 +76,6 @@ const handleToolbarItemClick = (key: string) => {
     height: 24px;
     border-bottom: 1px solid #dadce0;
     user-select: none;
-  }
-  .toolbar_item .toolbar_sprite {
-    height: 20px;
-    display: inline-block;
-    width: 20px;
   }
 }
 </style>

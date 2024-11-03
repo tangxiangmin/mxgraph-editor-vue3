@@ -8,6 +8,21 @@
       <div class="px-4 py-2 font-bold border-b text-lg">图形样式</div>
       <div v-if="activeCells[0].isVertex()">
         <div class="px-4 py-3 border-b">
+          <div class="font-bold mb-2">样式</div>
+          <el-form label-position="left" label-width="50px" size="small">
+            <el-form-item label="背景色">
+              <el-color-picker
+                v-model="textModel.fillColor"
+                show-alpha
+                @change="
+                  (val: string) => {
+                    handlePropChange('fillColor', val)
+                  }
+                "></el-color-picker>
+            </el-form-item>
+          </el-form>
+        </div>
+        <div class="px-4 py-3 border-b">
           <div class="font-bold mb-2">布局</div>
           <el-form label-position="left" label-width="50px" size="small">
             <el-form-item label="宽度">
@@ -262,6 +277,7 @@ const getActiveCells = (graph: MyGraph) => {
       Number(styles.fontStyle) ? Number(styles.fontStyle) : 0
     )
     textModel.value = {
+      fillColor: styles.fillColor ?? '',
       fontFamily: styles.fontFamily ? styles.fontFamily : '',
       fontSize: Number(styles.fontSize) ? Number(styles.fontSize) : 12,
       fontColor: styles.fontColor ? styles.fontColor : '#00000',
@@ -322,10 +338,12 @@ interface TextConfig {
   italic: boolean
   underline: boolean
   verticalAlign: string
+  fillColor: string
 }
 
 const textModel = ref<TextConfig>({
   fontFamily: '',
+  fillColor: '',
   fontSize: 0,
   fontColor: '',
   bold: false,
@@ -335,6 +353,7 @@ const textModel = ref<TextConfig>({
   underline: false,
   verticalAlign: ''
 })
+
 enum fontStyle {
   'bold' = 1,
   'italic' = 2,
@@ -344,7 +363,6 @@ enum fontStyle {
 const handlePropChange = (prop: string, value: number | string) => {
   const graph = props.graph
   if (!graph) return
-  console.log(prop, value)
   if (Object.keys(fontStyle).includes(prop)) {
     const n = Object.keys(fontStyle).reduce((p, c) => {
       const num = textModel.value[c as unknown as 'fontSize']

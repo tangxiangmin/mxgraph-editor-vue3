@@ -154,7 +154,6 @@ export function clone(item: any) {
 
   return result
 }
-mxPerimeter
 //lifeline 线上链接点自动吸附
 //style设置perimeter=lifelinePerimeter;
 mxPerimeter.LifelinePerimeter = function (bounds, vertex, next, orthogonal) {

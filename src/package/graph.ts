@@ -2,13 +2,11 @@ import mx from './factory'
 import {
   mxCell as typeMxCell,
   mxPopupMenuHandler,
-  mxEventObject as typeMxEventObject
 } from 'mxgraph'
 import { Action } from './actions'
 import myStyle from './defaultStyle'
 import { nanoid } from 'nanoid'
 import { ctrlKey, keyCode } from './defaultConfig'
-import { isProxy } from 'vue'
 import { NodeConfig } from './type/type'
 const {
   mxGraph,
@@ -99,8 +97,7 @@ class MyGraph extends mxGraph {
     // cell style editable 控制是否可以双击编辑
     this.setConnectable(true)
     mxEvent.disableContextMenu(this.container)
-    // 固定节点大小
-    this.setCellsResizable(false)
+    this.setCellsResizable(true)
     // // 编辑时按回车键不换行，而是完成输入
     // this.setEnterStopsCellEditing(true)
     // // 编辑时按 escape 后完成输入
@@ -124,7 +121,7 @@ class MyGraph extends mxGraph {
     // this.setCellsBendable(false)
 
     // // 禁止从将label从线条上拖离
-    mxGraph.prototype.edgeLabelsMovable = false
+    mxGraph.prototype.edgeLabelsMovable = true
     // 样式
     myStyle.children.forEach((ele: any) => {
       const node: { [k: string]: string } = {}
@@ -237,7 +234,7 @@ class MyGraph extends mxGraph {
   }
   _setAnchors() {
     // 禁止从节点中心拖拽出线条
-    // this.connectionHandler.isConnectableCell = () => false
+    this.connectionHandler.isConnectableCell = () => false
     mxEdgeHandler.prototype.isConnectableCell = () => false
 
     // hover时显示连接节点
@@ -257,25 +254,25 @@ class MyGraph extends mxGraph {
       return []
     }
 
-    //设计连接节点
-    mxShape.prototype.constraints = [
-      new mxConnectionConstraint(new mxPoint(0, 0), true),
-      new mxConnectionConstraint(new mxPoint(0, 1), true),
-      new mxConnectionConstraint(new mxPoint(1, 0), true),
-      new mxConnectionConstraint(new mxPoint(1, 1), true),
-      new mxConnectionConstraint(new mxPoint(0.25, 0), true),
-      new mxConnectionConstraint(new mxPoint(0.5, 0), true),
-      new mxConnectionConstraint(new mxPoint(0.75, 0), true),
-      new mxConnectionConstraint(new mxPoint(0, 0.25), true),
-      new mxConnectionConstraint(new mxPoint(0, 0.5), true),
-      new mxConnectionConstraint(new mxPoint(0, 0.75), true),
-      new mxConnectionConstraint(new mxPoint(1, 0.25), true),
-      new mxConnectionConstraint(new mxPoint(1, 0.5), true),
-      new mxConnectionConstraint(new mxPoint(1, 0.75), true),
-      new mxConnectionConstraint(new mxPoint(0.25, 1), true),
-      new mxConnectionConstraint(new mxPoint(0.5, 1), true),
-      new mxConnectionConstraint(new mxPoint(0.75, 1), true)
-    ]
+    // 暂时不展示 设计连接节点
+    // mxShape.prototype.constraints = [
+    //   new mxConnectionConstraint(new mxPoint(0, 0), true),
+    //   new mxConnectionConstraint(new mxPoint(0, 1), true),
+    //   new mxConnectionConstraint(new mxPoint(1, 0), true),
+    //   new mxConnectionConstraint(new mxPoint(1, 1), true),
+    //   new mxConnectionConstraint(new mxPoint(0.25, 0), true),
+    //   new mxConnectionConstraint(new mxPoint(0.5, 0), true),
+    //   new mxConnectionConstraint(new mxPoint(0.75, 0), true),
+    //   new mxConnectionConstraint(new mxPoint(0, 0.25), true),
+    //   new mxConnectionConstraint(new mxPoint(0, 0.5), true),
+    //   new mxConnectionConstraint(new mxPoint(0, 0.75), true),
+    //   new mxConnectionConstraint(new mxPoint(1, 0.25), true),
+    //   new mxConnectionConstraint(new mxPoint(1, 0.5), true),
+    //   new mxConnectionConstraint(new mxPoint(1, 0.75), true),
+    //   new mxConnectionConstraint(new mxPoint(0.25, 1), true),
+    //   new mxConnectionConstraint(new mxPoint(0.5, 1), true),
+    //   new mxConnectionConstraint(new mxPoint(0.75, 1), true)
+    // ]
   }
   _initRotate() {
     const rotationHandle = new mxImage(
@@ -315,6 +312,26 @@ class MyGraph extends mxGraph {
           undefined,
           this.actions.get('delete').func.bind(this, this)
         )
+        menu.addItem(
+          '置于后方',
+          undefined,
+          this.actions.get('toBack').func.bind(this, this)
+        )
+        menu.addItem(
+          '置于上方',
+          undefined,
+          this.actions.get('toFront').func.bind(this, this)
+        )
+        menu.addItem(
+          '组合',
+          undefined,
+          this.actions.get('group').func.bind(this, this)
+        )
+        // menu.addItem(
+        //   '取消组合',
+        //   undefined,
+        //   this.actions.get('ungroup').func.bind(this, this)
+        // )
       }
     }
   }

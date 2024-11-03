@@ -1,6 +1,6 @@
 <template>
   <div class="flex w-full h-full draw">
-    <div class="h-full sider-wrapper" style="width: 200px" v-if="!hideSidebar">
+    <div class="h-full w-[300px]" v-if="!hideSidebar">
       <SiderbarVue :nodes="props.nodes" :graph="graph">
         <template #sidebar>
           <slot name="sidebar"></slot>
@@ -11,12 +11,11 @@
     <div class="flex flex-col flex-1 w-1">
       <!-- <div class="w-full border-b border-gray-100 shadow toolbar"></div> -->
       <Toolbar :graph="graph" :toolbar="toolbar" v-if="showToolbar" />
-      <div class="flex-1 w-full relative">
+      <div class="flex-1 w-full relative" >
         <div class="editor-container w-full h-full"></div>
-        <div class="editor-outline"></div>
+        <div class="editor-outline" v-if="outlineMap"></div>
       </div>
     </div>
-    <!-- <div class="h-full shadow" style="width: 200px; height: 400px"></div> -->
     <FormatPanel
       :graph="graph"
       :handleGeomertyChange="handleGeomertyChange"
@@ -30,7 +29,6 @@ export default {
 }
 </script>
 <script setup lang="ts">
-import { mxCell as typeMxCell, mxPopupMenuHandler } from 'mxgraph'
 import { onMounted, ref, shallowRef, unref } from 'vue'
 import mx from './factory'
 import MyGraph from './graph'
