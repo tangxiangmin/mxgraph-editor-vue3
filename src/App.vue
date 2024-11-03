@@ -1,75 +1,21 @@
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import GraphEditor from './components/GraphEditor.vue'
+import './shapes/index'
+
+const draw = ref()
+
+const initXml = `<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/><mxCell id="2" value="" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1"><mxGeometry x="250" y="120" width="100" height="80" as="geometry"/></mxCell><mxCell id="3" value="" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;darkOpacity=0.05;darkOpacity2=0.1;" vertex="1" parent="1" data="sdfsdf"><mxGeometry x="160" y="250" width="100" height="80" as="geometry"/></mxCell></root></mxGraphModel>`
+onMounted(() => {
+  const graph = draw.value.graph
+  console.log('init', graph)
+})
+</script>
+
 <template>
   <div class="h-[100vh]">
-    <drawVue
-      :nodes="nodes"
-      :toolbar="['undo', 'redo', 'zoomIn', 'zoomOut', 'delete','copy','paste']"
-      :outlineMap="false"
-      ref="draw"
-      :beforeAddVertex="beforeAddVertex"
-      :handleRotate="handleRotate"
-      :handleGeomertyChange="handleGeomertyChange"
-      :handleStyleChange="handleStyleChange"
-      :handleAddVertex="handleAddVertex"
-    >
-    </drawVue>
+    <GraphEditor ref="draw" :init-xml="initXml" />
   </div>
 </template>
-
-<script setup lang="ts">
-import { mxCell, mxRectangle, mxSvgCanvas2D } from 'mxgraph'
-import { onMounted, ref } from 'vue'
-import drawVue from './package/draw.vue'
-import mx from './package/factory'
-import { SidebarNode, SidebarNodeConfig } from './package/type/type'
-import './shape'
-const nodes = ref<SidebarNode[]>([])
-const draw = ref()
-const { mxUtils, mxRectangleShape, mxEvent } = mx
-
-onMounted(() => {
-  nodes.value = [
-    {
-      name: '基础图形',
-      nodes: [
-        {
-          name: '圆角矩形',
-          style: 'rounded=1;fillColor=transparent',
-          type: 'vertex',
-          value: '占位文字',
-          width: 100,
-          height: 80
-        }
-      ]
-    }
-  ]
-  // graph._initRotate()
-})
-const beforeAddVertex = (cell: mxCell) => {
-  return true
-}
-
-const handleRotate = () => {
-  console.log(123123)
-}
-
-const handleGeomertyChange = (
-  cell: mxCell[],
-  key: string,
-  value: number | string
-) => {
-  console.log(cell, key, value)
-}
-const handleStyleChange = (
-  cell: mxCell[],
-  key: string,
-  value: number | string
-) => {
-  console.log(cell, key, value)
-}
-
-const handleAddVertex = () => {
-  console.log('handleAddVertex')
-}
-</script>
 
 <style scoped></style>

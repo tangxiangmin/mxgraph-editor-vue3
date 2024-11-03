@@ -14,6 +14,7 @@ declare module '@vue/runtime-core' {
     ElEmpty: typeof import('element-plus/es')['ElEmpty']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
+    ElInput: typeof import('element-plus/es')['ElInput']
     ElInputNumber: typeof import('element-plus/es')['ElInputNumber']
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
@@ -22,5 +23,9 @@ declare module '@vue/runtime-core' {
     ElSelectOption: typeof import('element-plus/es')['ElSelectOption']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
+    FormatPanel: typeof import('./src/components/FormatPanel.vue')['default']
+    GraphEditor: typeof import('./src/components/GraphEditor.vue')['default']
+    SideBar: typeof import('./src/components/SideBar.vue')['default']
+    ToolBar: typeof import('./src/components/ToolBar.vue')['default']
   }
 }
